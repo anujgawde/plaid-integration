@@ -1,4 +1,4 @@
-import { plaidClient } from "../lib/plaid";
+import { plaidClient } from "../../lib/plaid";
 
 export default async function handler(req, res) {
   console.log(req.body.accessToken, "req.body.accessToken");

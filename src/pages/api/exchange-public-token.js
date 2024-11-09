@@ -1,5 +1,5 @@
 // import { withIronSessionApiRoute } from "iron-session/next";
-import { plaidClient } from "../lib/plaid";
+import { plaidClient } from "../../lib/plaid";
 
 //  export default withIronSessionApiRoute(exchangePublicToken, sessionOptions);
 
