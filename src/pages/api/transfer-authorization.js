@@ -1,5 +1,6 @@
 import { plaidClient } from "../../lib/plaid";
 
+// Note: Hard-Coded data will be collected from the users in a production application
 export default async function handler(req, res) {
   try {
     const accountsResponse = await plaidClient.accountsGet({
@@ -16,7 +17,6 @@ export default async function handler(req, res) {
         amount: req.body.amount,
         network: "same-day-ach",
         ach_class: "web",
-        // Note: This data will be collected from our application
         user: {
           legal_name: "John Smith",
           phone_number: "+14155550011",

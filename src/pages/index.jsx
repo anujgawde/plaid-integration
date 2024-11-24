@@ -21,11 +21,12 @@ export default function Home() {
     {
       step: "Review Cart and Check Out",
       description:
-        "Click on the Cart at the top right corner after adding your products. This will open up a sliding panel with your cart details.",
+        "Click on the Cart at the top right corner after adding your products. This will open up a sliding panel with your cart details. Click 'Check Out' to proceed with the final step.",
     },
     {
       step: "Continue with payment",
-      description: "To continue with payment, click 'Pay Now'.",
+      description:
+        "Check your final amount and click 'Pay Now' to make the payment.",
     },
     {
       step: "Payment success",
