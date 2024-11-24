@@ -21,6 +21,8 @@ export default function Products() {
   const [accounts, setAccounts] = useState([]);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [price, setPrice] = useState(0);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
   const openCheckout = () => {
     const totalPrice = cart.reduce(
       (accumulator, product) => accumulator + product.price,
@@ -38,9 +40,26 @@ export default function Products() {
     setCart([...cart, product]);
   };
 
+  const toggleCart = () => {
+    if (!isCartOpen) {
+      const totalPrice = cart.reduce(
+        (accumulator, product) => accumulator + product.price,
+        0
+      );
+      setPrice(totalPrice);
+    }
+    setIsCartOpen(!isCartOpen);
+  };
+
   const removeFromCart = (itemIndex) => {
     const newCart = [...cart];
     newCart.splice(itemIndex, 1);
+
+    const totalPrice = newCart.reduce(
+      (accumulator, product) => accumulator + product.price,
+      0
+    );
+    setPrice(totalPrice);
     setCart(newCart);
   };
 
@@ -55,7 +74,6 @@ export default function Products() {
         },
       }
     );
-    console.log(accountBalanceResponse.data);
     setAccounts(accountBalanceResponse.data.accounts);
   };
 
@@ -85,24 +103,23 @@ export default function Products() {
   }, []);
   return (
     <>
-      <div className="min-h-screen bg-gray-100 p-6 text-black">
-        <div className="flex justify-between items-center mb-8">
+      <div className="min-h-screen bg-gray-100  text-black">
+        <div className="flex justify-between items-center mb-8 p-6">
           <h1 className="text-3xl font-bold">Products</h1>
 
-          {/* Cart Button with Counter */}
           <button
-            onClick={openCheckout}
-            className="relative inline-flex items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-full hover:bg-blue-600"
+            onClick={toggleCart}
+            className="bg-white flex items-center justify-center rounded-full p-2 relative"
           >
-            Check Out
-            <span className="ml-2 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+            <img src="/shopping-cart.svg" />
+            <span className="-top-1 -right-2 absolute bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
               {cart.length}
             </span>
           </button>
         </div>
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold">Bank Accounts</h2>
-          <div className="rounded-xl bg-white w-full p-6">
+        <div className="md:px-6">
+          <h2 className="text-2xl font-bold px-4 md:px-0">Bank Accounts</h2>
+          <div className="md:rounded-xl bg-white w-full p-4 my-4">
             {accounts.map((e, index) => (
               <div key={index} className="flex justify-between items-center">
                 <div className="flex space-x-4 items-center">
@@ -121,7 +138,7 @@ export default function Products() {
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4 md:p-6">
           {products.map((product) => (
             <div key={product.id} className="bg-white p-4 rounded-lg shadow-md">
               <h2 className="text-xl font-semibold">{product.name}</h2>
@@ -138,35 +155,80 @@ export default function Products() {
           ))}
         </div>
 
-        <div className="mt-8 p-4 bg-white rounded-lg shadow-md mx-40 ">
-          <h2 className="text-2xl font-bold">Cart</h2>
-          {cart.length > 0 ? (
-            <ul className="mt-4 max-h-[200px] overflow-y-auto">
-              {cart
-                .map((item, index) => (
-                  <div key={index}>
-                    <li
-                      key={index}
-                      className="py-2 border-b flex justify-between"
-                    >
-                      <p>{item.name}</p>
-                      <div className="flex space-x-2">
-                        <p>: ${item.price.toFixed(2)}</p>
-                        <span
-                          onClick={() => removeFromCart(index)}
-                          className="bg-red-500 rounded-full px-2 py-1 text-white text-xs m-0"
+        {/* TODO: Put Sliding panel in a component */}
+
+        <div
+          className={`fixed overflow-y-auto top-0 right-0 h-full bg-white transition-transform duration-300 ease-in-out ${
+            isCartOpen ? "translate-x-0" : "translate-x-full"
+          } w-11/12 lg:w-[70%] shadow-lg z-50`}
+        >
+          <div className="p-8 flex flex-col justify-between h-full">
+            <div>
+              <div className="flex justify-between items-center">
+                <p className="text-3xl">Cart</p>
+
+                <div className="flex">
+                  {/* Close Button */}
+                  <button
+                    onClick={toggleCart}
+                    className=" text-gray-700 font-bold text-lg"
+                  >
+                    <img className="h-8 w-8" src="/close.svg" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2 my-4 overflow-y-auto">
+                {cart.length > 0 &&
+                  cart
+                    .map((item, index) => (
+                      <div key={index}>
+                        <li
+                          key={index}
+                          className="py-2 border-b flex justify-between items-center"
                         >
-                          Remove
-                        </span>
+                          <div className="flex items-center space-x-2">
+                            <button
+                              onClick={() => removeFromCart(index)}
+                              className="bg-red-500 rounded-full p-1"
+                            >
+                              <img src="/minus.svg" className="h-2 w-2" />
+                            </button>
+                            <p>{item.name} : </p>
+                          </div>
+
+                          <p>${item.price.toFixed(2)}</p>
+                        </li>
                       </div>
-                    </li>
+                    ))
+                    .reverse()}
+
+                {cart.length > 0 && (
+                  <div>
+                    <div className="py-2 flex justify-between items-center">
+                      <div className="flex items-center space-x-2">
+                        <div>
+                          <p className="font-semibold">Total : </p>
+                          <p className="text-xs">(Excluding Taxes)</p>
+                        </div>
+                      </div>
+
+                      <p>$ {price.toFixed(2).toString()}</p>
+                    </div>
                   </div>
-                ))
-                .reverse()}
-            </ul>
-          ) : (
-            <p className="mt-4 text-gray-700">Your cart is empty.</p>
-          )}
+                )}
+              </div>
+            </div>
+            <div>
+              <button
+                disabled={cart.length === 0}
+                onClick={openCheckout}
+                className=" items-center px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg  disabled:opacity-50 w-full"
+              >
+                Check Out
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       {isCheckoutOpen && (

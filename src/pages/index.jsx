@@ -77,7 +77,7 @@ export default function Home() {
   });
 
   return (
-    <div className="max-h-screen overflow-y-auto w-full bg-gray-100 p-6 text-black">
+    <div className="max-h-screen overflow-y-auto w-full bg-gray-100 p-4 md:p-6 text-black">
       {/* Title */}
 
       <div className="flex justify-center w-full">

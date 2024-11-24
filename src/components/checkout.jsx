@@ -64,8 +64,11 @@ export default function Checkout({ isOpen, closeModal, price, emptyCart }) {
 
   return (
     isOpen && (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-black">
-        <div className="bg-white py-8 px-8 rounded-lg w-full max-w-2xl">
+      <div
+        onClick={closeModal}
+        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-black"
+      >
+        <div className="bg-white py-8 px-8 rounded-lg w-full max-w-2xl mx-2">
           {paymentStatus == "unattempted" ? (
             <div className="flex flex-col items-center space-y-4">
               <div className="flex items-center flex-col w-full">
@@ -160,11 +163,21 @@ export default function Checkout({ isOpen, closeModal, price, emptyCart }) {
                 <div className="flex justify-between">
                   <p>Date</p>
                   <p>
-                    {Date(transferCreate.transferCreateData.transfer.created)}
+                    {new Date(
+                      transferCreate.transferCreateData.transfer.created
+                    ).toLocaleString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
                   </p>
                 </div>
                 <div className="flex justify-between">
-                  <p>Ref ID.</p>
+                  <p>Payment Reference ID</p>
                   <p>
                     {transferCreate.transferCreateData.transfer.id
                       .split("-")
