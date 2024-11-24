@@ -31,7 +31,6 @@ export default function Checkout({ isOpen, closeModal, price, emptyCart }) {
         },
       }
     );
-    console.log(transferAuthorizationResponse);
 
     setTransferAuth(transferAuthorizationResponse.data);
     if (
@@ -64,10 +63,7 @@ export default function Checkout({ isOpen, closeModal, price, emptyCart }) {
 
   return (
     isOpen && (
-      <div
-        onClick={closeModal}
-        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-black"
-      >
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 text-black">
         <div className="bg-white py-8 px-8 rounded-lg w-full max-w-2xl mx-2">
           {paymentStatus == "unattempted" ? (
             <div className="flex flex-col items-center space-y-4">

@@ -19,9 +19,9 @@ export default function Home() {
       description: "Once on the products page, add them to your cart.",
     },
     {
-      step: "Check out",
+      step: "Review Cart and Check Out",
       description:
-        "Click on the 'Check Out' button at the top right after adding your products. This will open up a modal.",
+        "Click on the Cart at the top right corner after adding your products. This will open up a sliding panel with your cart details.",
     },
     {
       step: "Continue with payment",
@@ -45,13 +45,11 @@ export default function Home() {
   ];
 
   const [linkToken, setLinkToken] = useState(null);
-
+  const createLinkToken = async () => {
+    const response = await axios.post("/api/create-link-token");
+    setLinkToken(response.data.link_token);
+  };
   useEffect(() => {
-    console.log(localStorage.getItem("access_token"));
-    const createLinkToken = async () => {
-      const response = await axios.post("/api/create-link-token");
-      setLinkToken(response.data.link_token);
-    };
     createLinkToken();
   }, []);
 

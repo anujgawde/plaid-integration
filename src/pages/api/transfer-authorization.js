@@ -7,7 +7,6 @@ export default async function handler(req, res) {
     });
 
     const accountId = accountsResponse.data.accounts[0].account_id;
-    console.log(req.body.amount);
     const transferAuthorizationCreateResponse =
       await plaidClient.transferAuthorizationCreate({
         access_token: req.body.accessToken,

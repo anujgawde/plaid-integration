@@ -104,7 +104,7 @@ export default function Products() {
   return (
     <>
       <div className="min-h-screen bg-gray-100  text-black">
-        <div className="flex justify-between items-center mb-8 p-6">
+        <div className="flex justify-between items-center  p-4 md:p-6">
           <h1 className="text-3xl font-bold">Products</h1>
 
           <button
